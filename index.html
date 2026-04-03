@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <title>下载 App</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 400px;
+        width: 100%;
+      }
+
+      .app-icon {
+        width: 120px;
+        height: 120px;
+        background: white;
+        border-radius: 24px;
+        margin: 0 auto 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 60px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      }
+
+      h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+
+      p {
+        font-size: 16px;
+        opacity: 0.9;
+        margin-bottom: 40px;
+        line-height: 1.5;
+      }
+
+      .download-btn {
+        background: white;
+        color: #667eea;
+        border: none;
+        padding: 16px 40px;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 30px;
+        cursor: pointer;
+        width: 100%;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+
+      .download-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+      }
+
+      .device-info {
+        margin-top: 20px;
+        font-size: 14px;
+        opacity: 0.8;
+      }
+
+      /* 微信遮罩层 */
+      .wechat-mask {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        z-index: 9999;
+        padding: 20px;
+      }
+
+      .wechat-mask.active {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding-top: 60px;
+      }
+
+      .arrow {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 30px;
+        animation: bounce 1.5s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .wechat-mask h2 {
+        font-size: 22px;
+        margin-bottom: 15px;
+      }
+
+      .wechat-mask p {
+        font-size: 16px;
+        line-height: 1.6;
+        max-width: 300px;
+      }
+
+      .close-mask {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 30px;
+        cursor: pointer;
+        opacity: 0.7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="app-icon">📱</div>
+      <h1>你的 App 名称</h1>
+      <p>发现更多精彩，立即下载体验</p>
+      <button class="download-btn" onclick="handleDownload()">立即下载</button>
+      <div class="device-info" id="deviceInfo">检测设备中...</div>
+    </div>
+
+    <!-- 微信遮罩层 -->
+    <div class="wechat-mask" id="wechatMask" onclick="hideMask()">
+      <span class="close-mask">&times;</span>
+      <svg
+        class="arrow"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="white"
+        stroke-width="2"
+      >
+        <path
+          d="M7 17L17 7M17 7H7M17 7V17"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <h2>请点击右上角 ⋮</h2>
+      <p>
+        选择"在浏览器打开"以完成下载<br />iPhone 用户请选择"在 Safari 中打开"
+      </p>
+    </div>
+
+    <script>
+      // 配置下载链接（修改为你的实际链接）
+      const config = {
+        // iOS App Store 链接（替换为你的 App ID）
+        iosAppStoreUrl: "https://apps.apple.com/app/idYOUR_APP_ID",
+
+        // Android APK 直链（推荐用腾讯云 COS、GitHub Releases 或 Firebase）
+        androidApkUrl:
+          "https://your-bucket.cos.ap-guangzhou.myqcloud.com/app-release.apk",
+
+        // 备用：Android 应用商店链接（如已上架应用宝等）
+        androidStoreUrl:
+          "https://play.google.com/store/apps/details?id=your.package.name",
+      };
+
+      // 设备检测
+      const ua = navigator.userAgent.toLowerCase();
+      const isIOS = /iphone|ipad|ipod/.test(ua);
+      const isAndroid = /android/.test(ua);
+      const isWechat = /micromessenger/.test(ua);
+      const isQQ = /qq/.test(ua);
+      const isInAppBrowser = isWechat || isQQ;
+
+      // 页面加载时更新设备信息
+      window.onload = function () {
+        const info = document.getElementById("deviceInfo");
+        if (isIOS) {
+          info.textContent = "检测到 iOS 设备，将跳转至 App Store";
+          // 可选：自动跳转（延迟 2 秒给用户查看页面）
+          // setTimeout(() => handleDownload(), 2000);
+        } else if (isAndroid) {
+          info.textContent = "检测到 Android 设备，将下载安装包";
+        } else {
+          info.textContent = "请在手机浏览器中打开以下载";
+        }
+      };
+
+      // 处理下载
+      function handleDownload() {
+        // 内置浏览器（微信/QQ）显示遮罩引导
+        if (isInAppBrowser) {
+          showMask();
+          return;
+        }
+
+        // 直接跳转
+        redirectToDownload();
+      }
+
+      // 跳转逻辑
+      function redirectToDownload() {
+        if (isIOS) {
+          // iOS 跳转 App Store
+          window.location.href = config.iosAppStoreUrl;
+        } else if (isAndroid) {
+          // Android 优先尝试 APK 直链下载
+          // 如果已上架应用商店，可改为 config.androidStoreUrl
+          window.location.href = config.androidApkUrl;
+
+          // 备用方案：如果 3 秒后仍在页面，可能下载失败，提示用户
+          setTimeout(() => {
+            if (!document.hidden) {
+              alert("如果下载未开始，请检查浏览器设置或尝试刷新页面");
+            }
+          }, 3000);
+        } else {
+          // PC 端显示二维码或提示
+          alert("请使用手机扫描访问此页面，或直接在手机浏览器中打开");
+        }
+      }
+
+      // 显示/隐藏遮罩
+      function showMask() {
+        document.getElementById("wechatMask").classList.add("active");
+      }
+
+      function hideMask() {
+        document.getElementById("wechatMask").classList.remove("active");
+      }
+
+      // 处理 hash 变化（用于浏览器打开后自动下载）
+      if (window.location.hash === "#download") {
+        window.location.hash = "";
+        setTimeout(redirectToDownload, 500);
+      }
+    </script>
+  </body>
+</html>
