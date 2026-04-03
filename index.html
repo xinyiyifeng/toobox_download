@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
-    <title>下载 App</title>
+    <title>下载 kit+</title>
     <style>
       * {
         margin: 0;
@@ -147,8 +147,10 @@
   </head>
   <body>
     <div class="container">
-      <div class="app-icon">📱</div>
-      <h1>你的 App 名称</h1>
+      <div class="app-icon">
+        <img src="appIcon.png" alt="appIcon" style="width: 100%; height: 100%; border-radius: inherit; object-fit: cover;" />
+      </div>
+      <h1>kit+</h1>
       <p>发现更多精彩，立即下载体验</p>
       <button class="download-btn" onclick="handleDownload()">立即下载</button>
       <div class="device-info" id="deviceInfo">检测设备中...</div>
@@ -177,18 +179,14 @@
     </div>
 
     <script>
-      // 配置下载链接（修改为你的实际链接）
+      // 配置下载链接
       const config = {
-        // iOS App Store 链接（替换为你的 App ID）
-        iosAppStoreUrl: "https://apps.apple.com/app/idYOUR_APP_ID",
+        // iOS App Store 链接
+        iosAppStoreUrl: "https://apps.apple.com/app/",
 
-        // Android APK 直链（推荐用腾讯云 COS、GitHub Releases 或 Firebase）
+        // Android APK 直链
         androidApkUrl:
-          "https://your-bucket.cos.ap-guangzhou.myqcloud.com/app-release.apk",
-
-        // 备用：Android 应用商店链接（如已上架应用宝等）
-        androidStoreUrl:
-          "https://play.google.com/store/apps/details?id=your.package.name",
+          "https://github.com/xinyiyifeng/toobox_download/releases/download/1.0.0/toolbox1.0.0.apk",
       };
 
       // 设备检测
