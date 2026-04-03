@@ -153,7 +153,7 @@
       <h1>kit+</h1>
       <p>发现更多精彩，立即下载体验</p>
       <button class="download-btn" onclick="handleDownload()">立即下载</button>
-      <div class="device-info" id="deviceInfo">检测设备中...</div>
+      <div class="device-info" id="deviceInfo"></div>
     </div>
 
     <!-- 微信遮罩层 -->
@@ -201,11 +201,11 @@
       window.onload = function () {
         const info = document.getElementById("deviceInfo");
         if (isIOS) {
-          info.textContent = "检测到 iOS 设备，将跳转至 App Store";
+          info.textContent = "iOS 设备";
           // 可选：自动跳转（延迟 2 秒给用户查看页面）
           // setTimeout(() => handleDownload(), 2000);
         } else if (isAndroid) {
-          info.textContent = "检测到 Android 设备，将下载安装包";
+          info.textContent = "Android 设备";
         } else {
           info.textContent = "请在手机浏览器中打开以下载";
         }
