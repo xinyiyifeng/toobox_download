@@ -6,97 +6,497 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
-    <title>下载 kit+</title>
+    <meta
+      name="description"
+      content="Kit+ 是一款集合实用小工具与轻量小游戏的手机应用，支持设备信息、直尺、分贝仪、反应力测试、指南针、2048、扫雷、俄罗斯方块等功能。"
+    />
+    <title>下载 Kit+ | 实用工具与小游戏合集</title>
     <style>
+      :root {
+        --bg: #f7f9f6;
+        --surface: #ffffff;
+        --ink: #14201d;
+        --muted: #65736e;
+        --line: #dfe7e2;
+        --green: #1d8f63;
+        --green-dark: #0d5f43;
+        --coral: #ef6a4d;
+        --gold: #d99b22;
+        --blue: #3478c7;
+        --shadow: 0 20px 50px rgba(20, 32, 29, 0.12);
+      }
+
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
 
+      html {
+        scroll-behavior: smooth;
+      }
+
       body {
-        font-family:
-          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        text-align: center;
-        padding: 20px;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+          "Microsoft YaHei", sans-serif;
+        background:
+          linear-gradient(180deg, rgba(29, 143, 99, 0.08), transparent 420px),
+          var(--bg);
+        color: var(--ink);
       }
 
-      .container {
-        max-width: 400px;
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .page {
         width: 100%;
+        overflow: hidden;
       }
 
-      .app-icon {
-        width: 120px;
-        height: 120px;
-        background: white;
-        border-radius: 24px;
-        margin: 0 auto 30px;
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        border-bottom: 1px solid rgba(223, 231, 226, 0.78);
+        background: rgba(247, 249, 246, 0.88);
+        backdrop-filter: blur(18px);
+      }
+
+      .nav-inner {
+        width: min(1120px, calc(100% - 32px));
+        height: 68px;
+        margin: 0 auto;
         display: flex;
         align-items: center;
-        justify-content: center;
-        font-size: 60px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .brand img {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        box-shadow: 0 8px 18px rgba(20, 32, 29, 0.16);
+      }
+
+      .brand span {
+        font-size: 18px;
+        font-weight: 800;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .nav-links a {
+        padding: 10px 12px;
+        border-radius: 8px;
+      }
+
+      .nav-links a:hover {
+        background: rgba(29, 143, 99, 0.09);
+        color: var(--green-dark);
+      }
+
+      .hero {
+        width: min(1120px, calc(100% - 32px));
+        min-height: calc(100svh - 68px);
+        margin: 0 auto;
+        padding: 72px 0 42px;
+        display: grid;
+        grid-template-columns: minmax(0, 1.02fr) minmax(300px, 0.72fr);
+        gap: 48px;
+        align-items: center;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 34px;
+        padding: 0 12px;
+        border: 1px solid rgba(29, 143, 99, 0.2);
+        border-radius: 999px;
+        color: var(--green-dark);
+        background: rgba(29, 143, 99, 0.08);
+        font-size: 14px;
+        font-weight: 700;
       }
 
       h1 {
-        font-size: 28px;
-        margin-bottom: 10px;
-        font-weight: 600;
+        margin-top: 22px;
+        max-width: 720px;
+        font-size: clamp(44px, 7vw, 82px);
+        line-height: 0.98;
+        letter-spacing: 0;
       }
 
-      p {
-        font-size: 16px;
-        opacity: 0.9;
-        margin-bottom: 40px;
-        line-height: 1.5;
+      .hero-copy {
+        max-width: 620px;
+        margin-top: 24px;
+        color: #43514c;
+        font-size: 20px;
+        line-height: 1.7;
       }
 
-      .download-btn {
-        background: white;
-        color: #667eea;
-        border: none;
-        padding: 16px 40px;
-        font-size: 18px;
-        font-weight: 600;
-        border-radius: 30px;
+      .hero-actions {
+        margin-top: 34px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+      }
+
+      .primary-btn,
+      .secondary-btn {
+        min-height: 52px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 0 22px;
+        border: 0;
         cursor: pointer;
-        width: 100%;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        font-size: 16px;
+        font-weight: 800;
         transition:
-          transform 0.2s,
-          box-shadow 0.2s;
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          background 0.2s ease;
       }
 
-      .download-btn:hover {
+      .primary-btn {
+        background: var(--green);
+        color: white;
+        box-shadow: 0 16px 34px rgba(29, 143, 99, 0.26);
+      }
+
+      .primary-btn:hover {
+        background: var(--green-dark);
         transform: translateY(-2px);
-        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 20px 42px rgba(29, 143, 99, 0.3);
+      }
+
+      .secondary-btn {
+        border: 1px solid var(--line);
+        background: white;
+        color: var(--ink);
+      }
+
+      .secondary-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 32px rgba(20, 32, 29, 0.1);
+      }
+
+      .btn-icon {
+        width: 20px;
+        height: 20px;
+        flex: 0 0 20px;
       }
 
       .device-info {
-        margin-top: 20px;
+        margin-top: 14px;
+        min-height: 22px;
+        color: var(--muted);
         font-size: 14px;
-        opacity: 0.8;
       }
 
-      /* 微信遮罩层 */
+      .hero-stats {
+        margin-top: 38px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        max-width: 560px;
+      }
+
+      .stat {
+        min-height: 92px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.72);
+      }
+
+      .stat strong {
+        display: block;
+        color: var(--ink);
+        font-size: 28px;
+        line-height: 1;
+      }
+
+      .stat span {
+        display: block;
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.4;
+      }
+
+      .download-panel {
+        position: relative;
+        padding: 28px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        box-shadow: var(--shadow);
+      }
+
+      .app-mark {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .app-mark img {
+        width: 84px;
+        height: 84px;
+        border-radius: 18px;
+        box-shadow: 0 14px 30px rgba(20, 32, 29, 0.18);
+      }
+
+      .app-mark h2 {
+        font-size: 26px;
+        line-height: 1.1;
+      }
+
+      .app-mark p {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .qr-box {
+        margin-top: 28px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fbfcfa;
+        text-align: center;
+      }
+
+      .qr-box img {
+        width: min(220px, 72vw);
+        aspect-ratio: 1;
+        object-fit: contain;
+      }
+
+      .qr-box strong {
+        display: block;
+        margin-top: 12px;
+        font-size: 16px;
+      }
+
+      .qr-box span {
+        display: block;
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .platform-list {
+        margin-top: 22px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .platform {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 14px 0;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .platform b {
+        color: var(--ink);
+      }
+
+      .section {
+        padding: 72px 0;
+      }
+
+      .section.alt {
+        background: #eef5f0;
+      }
+
+      .section-inner {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 28px;
+      }
+
+      .section-head h2 {
+        font-size: clamp(28px, 4vw, 42px);
+        line-height: 1.12;
+      }
+
+      .section-head p {
+        max-width: 470px;
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.7;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .feature-card {
+        min-height: 180px;
+        padding: 20px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+      }
+
+      .feature-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        color: white;
+        background: var(--green);
+      }
+
+      .feature-icon svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      .feature-card:nth-child(3n + 2) .feature-icon {
+        background: var(--blue);
+      }
+
+      .feature-card:nth-child(3n) .feature-icon {
+        background: var(--coral);
+      }
+
+      .feature-card h3 {
+        margin-top: 18px;
+        font-size: 18px;
+        line-height: 1.25;
+      }
+
+      .feature-card p {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.65;
+      }
+
+      .game-strip {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .game-card {
+        min-height: 150px;
+        padding: 18px;
+        border: 1px solid rgba(217, 155, 34, 0.3);
+        border-radius: 8px;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.88), white),
+          var(--surface);
+      }
+
+      .game-card strong {
+        display: block;
+        font-size: 22px;
+        line-height: 1.1;
+      }
+
+      .game-card span {
+        display: block;
+        width: 38px;
+        height: 4px;
+        margin: 14px 0;
+        border-radius: 999px;
+        background: var(--gold);
+      }
+
+      .game-card p {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .bottom-download {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 24px;
+        padding: 32px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        box-shadow: 0 18px 44px rgba(20, 32, 29, 0.1);
+      }
+
+      .bottom-download h2 {
+        font-size: clamp(26px, 4vw, 40px);
+        line-height: 1.15;
+      }
+
+      .bottom-download p {
+        margin-top: 12px;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      footer {
+        padding: 28px 0 44px;
+        color: var(--muted);
+        font-size: 13px;
+        text-align: center;
+      }
+
+      footer a {
+        color: var(--green-dark);
+        font-weight: 700;
+      }
+
       .wechat-mask {
         display: none;
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.85);
+        inset: 0;
         z-index: 9999;
         padding: 20px;
+        color: white;
+        background: rgba(8, 13, 12, 0.9);
       }
 
       .wechat-mask.active {
@@ -130,41 +530,396 @@
       }
 
       .wechat-mask p {
+        max-width: 320px;
+        color: rgba(255, 255, 255, 0.82);
         font-size: 16px;
         line-height: 1.6;
-        max-width: 300px;
+        text-align: center;
       }
 
       .close-mask {
         position: absolute;
-        top: 20px;
-        right: 20px;
-        font-size: 30px;
+        top: 18px;
+        right: 22px;
+        border: 0;
+        background: transparent;
+        color: white;
+        font-size: 32px;
         cursor: pointer;
-        opacity: 0.7;
+        opacity: 0.8;
+      }
+
+      @media (max-width: 900px) {
+        .hero {
+          min-height: auto;
+          grid-template-columns: 1fr;
+          padding-top: 48px;
+        }
+
+        .download-panel {
+          max-width: 520px;
+        }
+
+        .feature-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .game-strip {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .section-head,
+        .bottom-download {
+          display: block;
+        }
+
+        .section-head p,
+        .bottom-download p {
+          margin-top: 12px;
+        }
+
+        .bottom-download .primary-btn {
+          margin-top: 22px;
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .nav-inner {
+          height: 62px;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .hero {
+          width: min(100% - 24px, 560px);
+          padding: 36px 0 34px;
+          gap: 28px;
+        }
+
+        h1 {
+          font-size: 44px;
+        }
+
+        .hero-copy {
+          font-size: 17px;
+        }
+
+        .hero-actions {
+          display: grid;
+          grid-template-columns: 1fr;
+        }
+
+        .primary-btn,
+        .secondary-btn {
+          width: 100%;
+        }
+
+        .hero-stats {
+          grid-template-columns: 1fr;
+        }
+
+        .download-panel,
+        .bottom-download {
+          padding: 22px;
+        }
+
+        .section {
+          padding: 52px 0;
+        }
+
+        .section-inner {
+          width: min(100% - 24px, 560px);
+        }
+
+        .feature-grid,
+        .game-strip {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="app-icon">
-        <img src="download_qr.png" alt="下载二维码" style="width: 100%; height: 100%; padding: 10px; border-radius: inherit; object-fit: contain;" />
-      </div>
-      <h1>kit+</h1>
-      <p>一款轻量实用的工具游戏集合应用，立即下载体验</p>
-      <button class="download-btn" onclick="handleDownload()">立即下载</button>
-      <div class="device-info" id="deviceInfo"></div>
+    <div class="page">
+      <header class="nav">
+        <div class="nav-inner">
+          <a class="brand" href="#top" aria-label="Kit+ 首页">
+            <img src="appIcon.png" alt="Kit+ 图标" />
+            <span>Kit+</span>
+          </a>
+          <nav class="nav-links" aria-label="页面导航">
+            <a href="#tools">工具</a>
+            <a href="#games">游戏</a>
+            <a href="#download">下载</a>
+          </nav>
+        </div>
+      </header>
+
+      <main id="top">
+        <section class="hero" aria-labelledby="hero-title">
+          <div>
+            <span class="eyebrow">工具 + 游戏，一个应用装好</span>
+            <h1 id="hero-title">Kit+ 实用工具集合应用</h1>
+            <p class="hero-copy">
+              日常测量、设备查看、环境检测、临时决策和碎片时间小游戏都放在一起。
+              打开就能用，不必为一个小功能安装一堆应用。
+            </p>
+            <div class="hero-actions">
+              <button class="primary-btn" type="button" onclick="handleDownload()">
+                <svg
+                  class="btn-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M12 3v12" />
+                  <path d="m7 10 5 5 5-5" />
+                  <path d="M5 21h14" />
+                </svg>
+                <span id="downloadBtnText">立即下载</span>
+              </button>
+              <a class="secondary-btn" href="#tools">
+                <svg
+                  class="btn-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M4 7h16" />
+                  <path d="M4 12h16" />
+                  <path d="M4 17h16" />
+                </svg>
+                查看功能
+              </a>
+            </div>
+            <div class="device-info" id="deviceInfo"></div>
+            <div class="hero-stats" aria-label="应用内容概览">
+              <div class="stat">
+                <strong>7</strong>
+                <span>个实用工具，覆盖检测、测量、决策</span>
+              </div>
+              <div class="stat">
+                <strong>5</strong>
+                <span>款小游戏，适合随手开一局</span>
+              </div>
+              <div class="stat">
+                <strong>2</strong>
+                <span>个平台入口，iOS 与 Android 均可下载</span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="download-panel" id="download" aria-label="下载 Kit+">
+            <div class="app-mark">
+              <img src="appIcon.png" alt="Kit+ 应用图标" />
+              <div>
+                <h2>Kit+</h2>
+                <p>实用工具集合应用+</p>
+              </div>
+            </div>
+            <div class="qr-box">
+              <img src="download_qr.png" alt="Kit+ 下载二维码" />
+              <strong>手机扫码下载</strong>
+              <span>也可以直接点击页面上的下载按钮，根据设备自动前往对应平台。</span>
+            </div>
+            <div class="platform-list">
+              <div class="platform">
+                <b>iPhone / iPad</b>
+                <span>跳转 App Store</span>
+              </div>
+              <div class="platform">
+                <b>Android</b>
+                <span>下载 APK 安装包</span>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <section class="section alt" id="tools">
+          <div class="section-inner">
+            <div class="section-head">
+              <h2>随手可用的小工具</h2>
+              <p>
+                根据 Kit+ 当前工具页整理，常见场景从设备参数到方向、声音、磁场、随机决策都能快速处理。
+              </p>
+            </div>
+
+            <div class="feature-grid">
+              <article class="feature-card">
+                <div class="feature-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="7" y="2" width="10" height="20" rx="2" />
+                    <path d="M11 18h2" />
+                  </svg>
+                </div>
+                <h3>设备信息</h3>
+                <p>查看品牌、型号、系统版本、设备标识等基础信息。</p>
+              </article>
+              <article class="feature-card">
+                <div class="feature-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 19 19 4" />
+                    <path d="m7 16 2 2" />
+                    <path d="m10 13 2 2" />
+                    <path d="m13 10 2 2" />
+                  </svg>
+                </div>
+                <h3>直尺</h3>
+                <p>配置屏幕参数后，将手机变成临时测量尺。</p>
+              </article>
+              <article class="feature-card">
+                <div class="feature-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3Z" />
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                    <path d="M12 19v3" />
+                  </svg>
+                </div>
+                <h3>分贝仪</h3>
+                <p>检测环境声音强度，并给出安静、吵闹等等级提示。</p>
+              </article>
+              <article class="feature-card">
+                <div class="feature-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M13 2 4 14h7l-1 8 10-13h-7l0-7Z" />
+                  </svg>
+                </div>
+                <h3>反应力测试</h3>
+                <p>等待背景变绿后点击，测试自己的毫秒级反应速度。</p>
+              </article>
+              <article class="feature-card">
+                <div class="feature-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="m16 16 4 4" />
+                    <path d="M8 11h6" />
+                  </svg>
+                </div>
+                <h3>金属探测器</h3>
+                <p>利用磁场传感器感知附近铁质物体和磁感应强度。</p>
+              </article>
+              <article class="feature-card">
+                <div class="feature-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="m15 9-2 6-4 2 2-6 4-2Z" />
+                  </svg>
+                </div>
+                <h3>指南针</h3>
+                <p>查看当前方向，并在磁场不稳定时提示校准。</p>
+              </article>
+              <article class="feature-card">
+                <div class="feature-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M12 3v18" />
+                    <path d="m4.2 7.5 15.6 9" />
+                    <path d="m19.8 7.5-15.6 9" />
+                  </svg>
+                </div>
+                <h3>转盘决策器</h3>
+                <p>支持普通模式、抽签模式、方案管理和历史记录。</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="games">
+          <div class="section-inner">
+            <div class="section-head">
+              <h2>轻量小游戏</h2>
+              <p>
+                不需要复杂账号流程，打开就可以玩。适合等车、排队、休息时快速切换一下脑子。
+              </p>
+            </div>
+
+            <div class="game-strip">
+              <article class="game-card">
+                <strong>2048</strong>
+                <span></span>
+                <p>滑动合成数字方块，挑战更高分数。</p>
+              </article>
+              <article class="game-card">
+                <strong>贪食蛇</strong>
+                <span></span>
+                <p>方向控制、加速挑战，刷新最高分。</p>
+              </article>
+              <article class="game-card">
+                <strong>扫雷</strong>
+                <span></span>
+                <p>初级到高级难度，插旗排雷更耐玩。</p>
+              </article>
+              <article class="game-card">
+                <strong>俄罗斯方块</strong>
+                <span></span>
+                <p>经典下落方块玩法，消行升级。</p>
+              </article>
+              <article class="game-card">
+                <strong>五子棋</strong>
+                <span></span>
+                <p>黑白对弈、悔棋和比分记录。</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section alt">
+          <div class="section-inner">
+            <div class="bottom-download">
+              <div>
+                <h2>把这些小功能装进一个入口</h2>
+                <p>
+                  Kit+ 适合放在手机第一页：需要测量、查看设备、做决定或玩一局时，点开就到。
+                </p>
+              </div>
+              <button class="primary-btn" type="button" onclick="handleDownload()">
+                <svg
+                  class="btn-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M12 3v12" />
+                  <path d="m7 10 5 5 5-5" />
+                  <path d="M5 21h14" />
+                </svg>
+                立即下载 Kit+
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <span>Kit+ 下载页</span>
+        <span> · </span>
+        <a href="privacy.html">隐私政策</a>
+      </footer>
     </div>
 
-    <!-- 微信遮罩层 -->
     <div class="wechat-mask" id="wechatMask" onclick="hideMask()">
-      <span class="close-mask">&times;</span>
+      <button class="close-mask" type="button" aria-label="关闭">&times;</button>
       <svg
         class="arrow"
         viewBox="0 0 24 24"
         fill="none"
         stroke="white"
         stroke-width="2"
+        aria-hidden="true"
       >
         <path
           d="M7 17L17 7M17 7H7M17 7V17"
@@ -172,80 +927,67 @@
           stroke-linejoin="round"
         />
       </svg>
-      <h2>请点击右上角 ⋮</h2>
+      <h2>请点击右上角菜单</h2>
       <p>
-        选择"在浏览器打开"以完成下载<br />iPhone 用户请选择"在 Safari 中打开"
+        选择“在浏览器打开”以完成下载。iPhone 用户请选择“在 Safari 中打开”。
       </p>
     </div>
 
     <script>
-      // 配置下载链接
       const config = {
-        // iOS App Store 链接
         iosAppStoreUrl: "https://apps.apple.com/app/id6761518199",
-
-        // Android APK 直链
         androidApkUrl:
           "https://192.168.1.3:9443/filemgr/share-download/?id=fa6c04930ae04351ba8677c175b0888d",
       };
 
-      // 设备检测
       const ua = navigator.userAgent.toLowerCase();
       const isIOS = /iphone|ipad|ipod/.test(ua);
       const isAndroid = /android/.test(ua);
       const isWechat = /micromessenger/.test(ua);
-      const isQQ = /qq/.test(ua);
+      const isQQ = /\bqq\//.test(ua) || / qq\//.test(ua);
       const isInAppBrowser = isWechat || isQQ;
 
-      // 页面加载时更新设备信息
       window.onload = function () {
         const info = document.getElementById("deviceInfo");
+        const btnText = document.getElementById("downloadBtnText");
+
         if (isIOS) {
-          info.textContent = "iOS 设备";
-          // 可选：自动跳转（延迟 2 秒给用户查看页面）
-          // setTimeout(() => handleDownload(), 2000);
+          info.textContent = "已识别为 iOS 设备，将前往 App Store";
+          btnText.textContent = "前往 App Store";
         } else if (isAndroid) {
-          info.textContent = "Android 设备";
+          info.textContent = "已识别为 Android 设备，将下载 APK 安装包";
+          btnText.textContent = "下载 Android APK";
         } else {
-          info.textContent = "请在手机浏览器中打开以下载";
+          info.textContent = "电脑端可使用二维码扫码，也可点击按钮查看下载提示";
+          btnText.textContent = "手机扫码或下载";
         }
       };
 
-      // 处理下载
       function handleDownload() {
-        // 内置浏览器（微信/QQ）显示遮罩引导
         if (isInAppBrowser) {
           showMask();
           return;
         }
 
-        // 直接跳转
         redirectToDownload();
       }
 
-      // 跳转逻辑
       function redirectToDownload() {
         if (isIOS) {
-          // iOS 跳转 App Store
           window.location.href = config.iosAppStoreUrl;
         } else if (isAndroid) {
-          // Android 优先尝试 APK 直链下载
-          // 如果已上架应用商店，可改为 config.androidStoreUrl
           window.location.href = config.androidApkUrl;
 
-          // 备用方案：如果 3 秒后仍在页面，可能下载失败，提示用户
           setTimeout(() => {
             if (!document.hidden) {
               alert("如果下载未开始，请检查浏览器设置或尝试刷新页面");
             }
           }, 3000);
         } else {
-          // PC 端显示二维码或提示
-          alert("请使用手机扫描访问此页面，或直接在手机浏览器中打开");
+          alert("请使用手机扫描页面二维码，或直接在手机浏览器中打开此页面");
         }
       }
 
-      // 显示/隐藏遮罩
       function showMask() {
         document.getElementById("wechatMask").classList.add("active");
       }
@@ -254,8 +996,7 @@
         document.getElementById("wechatMask").classList.remove("active");
       }
 
-      // 处理 hash 变化（用于浏览器打开后自动下载）
-      if (window.location.hash === "#download") {
+      if (window.location.hash === "#download-now") {
         window.location.hash = "";
         setTimeout(redirectToDownload, 500);
       }
